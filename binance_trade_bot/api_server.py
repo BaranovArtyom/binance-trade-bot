@@ -31,7 +31,8 @@ def filter_period(query, model):  # pylint: disable=inconsistent-return-statemen
     if period == "all":
         return query
 
-    num = float(re.search(r"(\d*)[shdwm]", "1d").group(1))
+    match = re.search(r"(\d*)[shdwm]", period)
+    num = float(match.group(1)) if match and match.group(1) else 0
 
     if "s" in period:
         return query.filter(model.datetime >= datetime.now() - timedelta(seconds=num))
